@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -12,8 +13,9 @@ import java.util.logging.Level;
 
 public class SpawnerBreakEventListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
+        if (event.isCancelled()) return;
         final Block block = event.getBlock();
         if (block.getBlockData().getMaterial().equals(Material.SPAWNER)) {
             final CreatureSpawner spawner = (CreatureSpawner) block.getState();
